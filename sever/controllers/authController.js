@@ -78,9 +78,37 @@ const authController = {
             }
             //All good
             const accessToken = jwt.sign({ userID: user._id }, process.env.JWT_TOKEN)
-            return res.status(200).json({ user, accessToken })
+            return res.status(200).json({
+                success: true,
+                user,
+                accessToken
+            })
 
 
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({
+                success: false,
+                message: "Internal sever error."
+            })
+        }
+
+    },
+
+    //GET access token 
+    accessToken: async (req, res) => {
+        try {
+            const user = await User.findById(req.userId)
+            if (!user) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'User not found!'
+                })
+            }
+            res.json({
+                success: true,
+                user
+            })
         } catch (error) {
             console.log(error);
             return res.status(500).json({

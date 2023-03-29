@@ -1,6 +1,11 @@
-const authController = require('../controllers/authController')
+const authController = require('../controllers/authController');
+const middlewareController = require('../controllers/middlewareControllers');
 const router = require('express').Router();
 
+// @route GET api/auth
+// @des Check if user is login
+// @access Public
+router.get('/', middlewareController.verify, authController.accessToken)
 
 // @route POST api/auth/register
 // @des Register user
