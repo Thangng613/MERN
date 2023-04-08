@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Landing from './components/layout/Landing';
-import Auth from './views/Auth';
-import './App.css'
 import AuthContextProvider from './contexts/AuthContext';
 import Dashboard from './views/Dashboard';
+import Auth from './views/Auth';
+import ProtectedRoute from './components/routing/ProtectedRoute';
+import About from './views/About';
 
 function App() {
   return (
@@ -13,7 +14,10 @@ function App() {
           <Route exact path='/' element={<Landing />} />
           <Route exact path='/login' Component={(props) => <Auth {...props} authRoute='login' />} />
           <Route exact path='/register' Component={props => <Auth {...props} authRoute='register' />} />
-          <Route path='/dashboard' Component={Dashboard} />
+          <Route path='/' element={<ProtectedRoute />} >
+            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/about' element={<About />} />
+          </Route>
         </Routes>
       </Router>
 

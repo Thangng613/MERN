@@ -2,12 +2,11 @@ import axios from 'axios'
 import { createContext, useEffect, useReducer } from 'react'
 import setAuthToken from '../utils/setAuthToken'
 import { authReducer } from '../reducers/authReducer'
-import { apiUrl, LOCAL_STORAGE_TOKEN } from './api'
+import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from './api'
 
 export const AuthContext = createContext()
 
 const AuthContextProvider = ({ children }) => {
-
 
 
     const [authState, dispatch] = useReducer(authReducer, {
@@ -18,8 +17,8 @@ const AuthContextProvider = ({ children }) => {
 
 
     //Authenticate user
-    const loader = async () => {
-        const token = localStorage[LOCAL_STORAGE_TOKEN]
+    const loadUser = async () => {
+        const token = localStorage[LOCAL_STORAGE_TOKEN_NAME]
         if (token) {
             setAuthToken(token)
         }
@@ -35,7 +34,7 @@ const AuthContextProvider = ({ children }) => {
                 })
             }
         } catch (error) {
-            localStorage.removeItem(LOCAL_STORAGE_TOKEN)
+            localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME)
             setAuthToken(null)
             dispatch({
                 type: 'SET_AUTH',
@@ -47,7 +46,7 @@ const AuthContextProvider = ({ children }) => {
         }
     }
     useEffect(() => {
-        loader()
+        loadUser()
     }, [])
 
     //login
@@ -55,8 +54,13 @@ const AuthContextProvider = ({ children }) => {
         try {
             const respond = await axios.post(`${apiUrl}/auth/login`, userForm)
             if (respond.data.success) {
-                localStorage.setItem(LOCAL_STORAGE_TOKEN, respond.data.accessToken)
+                localStorage.setItem(
+                    LOCAL_STORAGE_TOKEN_NAME,
+                    respond.data.accessToken)
             }
+
+            await loadUser()
+
             return respond.data
         } catch (error) {
             if (error.respond && error.respond.data) {
@@ -65,14 +69,14 @@ const AuthContextProvider = ({ children }) => {
             else {
                 return {
                     success: false,
-                    message: 'Internal sever error'
+                    message: error.message
                 }
             }
         }
     }
 
     //Context data
-    const authContextData = { loginUser };
+    const authContextData = { loginUser, authState };
 
     //return provider
     return (
@@ -83,3 +87,4 @@ const AuthContextProvider = ({ children }) => {
 }
 
 export default AuthContextProvider;
+
