@@ -44,7 +44,10 @@ const postController = {
     getPosts: async (req, res) => {
         try {
             const posts = await Post.find({ user: req.userId }).populate('user', ['username'])
-            res.json(posts)
+            res.json({
+                success: true,
+                posts
+            })
         } catch (error) {
             console.log(error);
             res.status(500).json({

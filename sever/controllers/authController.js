@@ -6,7 +6,7 @@ const authController = {
 
     //REGISTER  
     registerUser: async (req, res) => {
-        const { username, password } = req.body
+        const { username, password, confirmPassword } = req.body
 
         // Simple validation
         if (!username || !password)
@@ -23,6 +23,13 @@ const authController = {
                     .status(400)
                     .json({ success: false, message: 'Username already taken' })
 
+            if (password !== confirmPassword) {
+                return res.json({
+                    success: false,
+                    message: 'Password do not match'
+                })
+            }
+
             // All good
             const hashedPassword = await argon2.hash(password)
             const newUser = new User({ username, password: hashedPassword })
@@ -31,7 +38,8 @@ const authController = {
             // Return token
             const accessToken = jwt.sign(
                 { userId: newUser._id },
-                process.env.ACCESS_TOKEN_SECRET
+                process.env.ACCESS_TOKEN_SECRET,
+                { expiresIn: '1d' }
             )
 
             res.json({
@@ -74,7 +82,8 @@ const authController = {
             // Return token
             const accessToken = jwt.sign(
                 { userId: user._id },
-                process.env.ACCESS_TOKEN_SECRET
+                process.env.ACCESS_TOKEN_SECRET,
+                { expiresIn: '1d' }
             )
 
             res.json({

@@ -3,7 +3,7 @@ import Login from '../components/auth/Login'
 import Register from '../components/auth/Register'
 import { AuthContext } from '../contexts/AuthContext'
 import { Navigate } from 'react-router-dom'
-import Spinner from '../cors/Spinner'
+import Spinner from '../core/Spinner'
 
 const Auth = ({ authRoute }) => {
     const { authState: { authLoading, isAuthenticated } } = useContext(AuthContext)

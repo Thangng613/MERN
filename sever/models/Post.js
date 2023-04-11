@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
-const enums = ['TO LEARN', 'LEARNING', 'LEARNED']
 
 const PostSchema = new Schema({
     title: {
@@ -16,7 +15,7 @@ const PostSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['TO LEARN', 'LEARNING', 'LEARNED'],
+        value: ['TO LEARN', 'LEARNING', 'LEARNED'],
     },
     user: {
         type: Schema.Types.ObjectId,
