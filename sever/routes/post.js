@@ -10,10 +10,14 @@ const middlewareController = require('../controllers/middlewareControllers')
 router.post('/', middlewareController.verify, postController.createPost)
 
 // @route GET api/posts
-// @des Get post
+// @des Get all posts
 // @access Private
 router.get('/', middlewareController.verify, postController.getPosts)
 
+// @route GET api/posts
+// @des Get a post
+// @access Private
+router.get('/:id', middlewareController.verify, postController.getAPost)
 // @route PUT api/posts/up-date
 // @des Get post
 // @access Private
