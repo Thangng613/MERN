@@ -28,7 +28,7 @@ const postController = {
 
             res.status(200).json({
                 success: true,
-                message: "Done!",
+                message: "Create is successfully!",
                 post: newPost
             })
         } catch (error) {
@@ -56,6 +56,25 @@ const postController = {
             })
         }
     },
+    getAPost: async (req, res) => {
+        const getAPostCondition = req.params.id
+        if (!getAPostCondition) {
+            return res.status(401).json({
+                success: false,
+                message: "Post not found or user not authorized."
+            })
+        }
+        try {
+            const post = await Post.findById(getAPostCondition)
+            res.json({
+                success: true,
+                post
+            })
+        } catch (error) {
+
+        }
+    },
+
     // UPDATE
     updatePost: async (req, res) => {
         const { title, description, url, status } = req.body
@@ -89,7 +108,7 @@ const postController = {
 
             res.status(200).json({
                 success: true,
-                message: "Done!",
+                message: "Update Post is successfully!",
                 post: updatedPost
             })
         } catch (error) {
@@ -116,6 +135,7 @@ const postController = {
             }
             res.json({
                 success: true,
+                message: 'Delete successfully!',
                 post: deletePost
             })
         } catch (error) {

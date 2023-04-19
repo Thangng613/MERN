@@ -1,19 +1,18 @@
-import React from 'react'
+import * as React from "react";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Spinner = () => {
-    return (
-        <div>
-            {/* <div class='flex items-center justify-center min-h-screen'>
-                <div style={{ borderTopColor: "transparent" }} class="w-8 h-8 border-4 border-blue-200 rounded-full animate-spin"></div>
-                <p class="ml-2">Loading...</p>
-            </div> */}
-            <div className="flex items-center justify-center space-x-2">
-                <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-            </div>
-        </div >
-    )
+return (
+    <div>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={true}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    </div>
+  );
 }
 
-export default Spinner
+export default Spinner;
