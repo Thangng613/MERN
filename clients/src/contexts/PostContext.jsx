@@ -68,13 +68,13 @@ const PostContextProvider = ({ children }) => {
   };
 
   //find post when user updating post
-  const findPost = async (postId) => {
-    const response = await axios.get(`${apiUrl}/posts/${postId}`);
-    // const post = postState.posts.map((post) => post.postId !== post._id);
-    if (response.data.success) {
-      dispatch({ type: FIND_POST, payload: response.data.post });
-    }
-    return response.data;
+  const findPost = (postId) => {
+    // const response = await axios.get(`${apiUrl}/posts/${postId}`);
+    const post = postState.posts.find((post) => post._id === postId);
+    // if (response.data.success) {
+    dispatch({ type: FIND_POST, payload: post });
+    // }
+    // return response.data;
   };
   //Update Post
   const updatePost = async (updatePost, id) => {

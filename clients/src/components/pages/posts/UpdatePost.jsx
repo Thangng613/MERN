@@ -1,17 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import { PostContext } from "../../../contexts/PostContext";
 
-function UpdatePost(post) {
+function UpdatePost() {
   const {
     updatePost,
     setShowToast,
     isModalOpenUpdatePost,
     setIsModalOpenUpdatePost,
-    // postState: { post },
+    postState: { post },
   } = useContext(PostContext);
 
   const [disabled, setDisabled] = useState(true);
   const [newPost, setNewPost] = useState(post);
+  console.log(newPost);
+
   const { title, url, description, status, _id } = newPost ?? {};
   const handleChangePost = (e) => {
     setNewPost({
@@ -31,10 +33,11 @@ function UpdatePost(post) {
       });
     }
   };
-
   useEffect(() => {
-    if ((title && url && description)) {
-      setNewPost(post);
+    setNewPost(post);
+  }, [post]);
+  useEffect(() => {
+    if (title && url && description) {
       setDisabled(false);
     } else setDisabled(true);
   }, [title, description, url]);
@@ -110,6 +113,7 @@ function UpdatePost(post) {
                     onChange={handleChangePost}
                     className="w-full py-1 px-1.5 rounded-md cursor-pointer border-gray-300 "
                     name="status"
+                    value={status}
                     id="">
                     <option name="TO LEARN" value={"TO LEARN"}>
                       To Learn

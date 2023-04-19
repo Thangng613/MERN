@@ -9,9 +9,9 @@ const SinglePost = () => {
     setIsModalOpenUpdatePost,
     findPost,
     deletePost,
-    postState: { posts },
+    postState: { posts, post },
   } = useContext(PostContext);
-  const [currentPost, setCurrentPost] = useState({});
+  console.log("🚀 ~ file: SinglePost.jsx:13 ~ SinglePost ~ posts:", post);
   const handleDelete = async (id) => {
     const { success, message } = await deletePost(id);
     if (success) {
@@ -22,14 +22,10 @@ const SinglePost = () => {
       });
     }
   };
-  const handleUpdate = async (id) => {
+  const handleUpdate = (id) => {
+    findPost(id);
     setIsModalOpenUpdatePost(true);
-    const { success, post } = await findPost(id);
-    if (success) {
-      setCurrentPost(post);
-    }
   };
-
   const data = posts.map((post, index) => (
     <div key={index} className="xl:w-1/3 md:w-1/2 p-4">
       <div className="bg-white p-6 rounded-lg">
@@ -71,7 +67,7 @@ const SinglePost = () => {
   return (
     <>
       {data}
-      <UpdatePost post={currentPost} />
+      <UpdatePost />
     </>
   );
 };
