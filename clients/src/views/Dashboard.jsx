@@ -4,6 +4,7 @@ import Spinner from "../core/Spinner";
 import SinglePost from "../components/pages/posts/SinglePost";
 import AddPost from "../components/pages/posts/AddPost";
 import Toast from "../core/toast/Toast";
+import SideBar from "../components/layout/SideBar";
 
 const Dashboard = () => {
   //Context
@@ -34,7 +35,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="bg-[#f3f4f6] h-auto min-h-screen scroll-auto p-10">
+    <div className="mx-auto h-auto min-h-screen scroll-auto">
       <section className="text-gray-600 body-font h-full">
         <div className="container mx-auto max-w-7x1">
           <div className="flex flex-wrap w-full mb-4 p-4">
@@ -53,7 +54,7 @@ const Dashboard = () => {
                   Create Post
                 </button>
               </div>
-                <AddPost/>
+              <AddPost />
             </div>
           </div>
           <div className="flex flex-wrap -m-4">

@@ -15,14 +15,14 @@ const Toast = () => {
     setShowToast,
   } = useContext(PostContext);
 
-  const handleClose = (event, reason) => {
+  const handleClose = (reason) => {
     if (reason === "clickaway") {
       return;
     }
     setShowToast({
       show: false,
       message: "",
-      type: 'success',
+      type: "success",
     });
   };
 

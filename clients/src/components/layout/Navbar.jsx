@@ -1,5 +1,63 @@
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import AdbIcon from "@mui/icons-material/Adb";
 import React, { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+import { styled, alpha } from "@mui/material/styles";
+import SearchIcon from "@mui/icons-material/Search";
+import InputBase from "@mui/material/InputBase";
+import Avatar from "@mui/material/Avatar";
+import AvatarUser from "../../core/avatar/Avatar";
+import { Container, Tooltip } from "@mui/material";
+
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: theme.spacing(1),
+    width: "auto",
+  },
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      width: "20ch",
+      "&:focus": {
+        width: "50ch",
+      },
+    },
+  },
+}));
 
 const Navbar = () => {
   const {
@@ -8,85 +66,97 @@ const Navbar = () => {
     },
     logoutUser,
   } = useContext(AuthContext);
-
   const logout = () => {
     logoutUser();
   };
+  const settings = [
+    {
+      name: "Profile",
+      action: "",
+    },
+    {
+      name: "Log out",
+      action: () => logout(),
+    },
+  ];
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   return (
-    // < !--component -- >
-    <nav
-      id="header"
-      className="w-full z-30 top-10 py-1 bg-white shadow-lg border-b border-blue-400">
-      <div className="w-full flex items-center justify-between mt-0 px-6 py-2">
-        <label htmlFor="menu-toggle" className="cursor-pointer md:hidden block">
-          <svg
-            className="fill-current text-blue-600"
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 20 20">
-            <title>menu</title>
-            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
-          </svg>
-        </label>
-        <input className="hidden" type="checkbox" id="menu-toggle" />
-
-        <div
-          className="hidden md:flex md:items-center md:w-auto w-full order-3 md:order-1"
-          id="menu">
-          <nav>
-            <ul className="md:flex items-center justify-between text-base text-blue-600 pt-4 md:pt-0">
-              <li>
-                <a
-                  className="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
-                  href="/home">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a
-                  className="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
-                  href="/dashboard">
-                  Dashboard
-                </a>
-              </li>
-              <li>
-                <a
-                  className="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
-                  href="/users">
-                  User
-                </a>
-              </li>
-              <li>
-                <a
-                  className="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
-                  href="/about">
-                  About
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-
-        <div
-          className="order-2 md:order-3 flex flex-wrap items-center justify-end mr-0 md:mr-4"
-          id="nav-content">
-          <div className="auth flex items-center w-full md:w-full">
-            <p>Hello {username} </p>
-            <button
-              onClick={logout}
-              className="ml-2 bg-red-400 text-gray-200  p-2 rounded  hover:bg-red-300 hover:text-gray-100">
-              Log out
-            </button>
-            {/* <>
-                                <button className="bg-transparent text-gray-800  p-2 rounded border border-gray-300 mr-4 hover:bg-gray-100 hover:text-gray-700">Sign in</button>
-                                <button className="bg-blue-600 text-gray-200  p-2 rounded  hover:bg-blue-500 hover:text-gray-100">Sign up</button>
-                            </> */}
-          </div>
-        </div>
-      </div>
-    </nav>
+    <Container maxWidth="xl">
+      <Toolbar
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+        disableGutters>
+        <Box sx={{ display: "flex" }}>
+          <AdbIcon sx={{ display: { xs: "none", md: "flex" } }} />
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}>
+            LOGO
+          </Typography>
+        </Box>
+        <Box sx={{ display: "contents" }}>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ "aria-label": "search" }}
+            />
+          </Search>
+        </Box>
+        <Box sx={{ display: "contents" }}>
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <AvatarUser username={username} />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            sx={{ mt: "45px" }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}>
+            {settings.map((children) => (
+              <MenuItem key={children.name} onClick={children.action}>
+                <Typography textAlign="center">{children.name}</Typography>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+      </Toolbar>
+    </Container>
   );
 };
-
 export default Navbar;
