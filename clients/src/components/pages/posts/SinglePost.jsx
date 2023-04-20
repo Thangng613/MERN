@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import Badge from "../../../core/bagde/Badge";
 import { PostContext } from "../../../contexts/PostContext";
 import UpdatePost from "./UpdatePost";
+import AvatarUser from "../../../core/avatar/Avatar";
 
 const SinglePost = () => {
   const {
@@ -9,9 +10,8 @@ const SinglePost = () => {
     setIsModalOpenUpdatePost,
     findPost,
     deletePost,
-    postState: { posts, post },
+    postState: { posts },
   } = useContext(PostContext);
-  console.log("🚀 ~ file: SinglePost.jsx:13 ~ SinglePost ~ posts:", post);
   const handleDelete = async (id) => {
     const { success, message } = await deletePost(id);
     if (success) {
@@ -22,6 +22,7 @@ const SinglePost = () => {
       });
     }
   };
+
   const handleUpdate = (id) => {
     findPost(id);
     setIsModalOpenUpdatePost(true);
@@ -53,8 +54,9 @@ const SinglePost = () => {
           />
         </a>
         {/* <iframe className="lg:h-60 xl:h-56 md:h-64 sm:h-72 xs:h-72 h-72  rounded w-full object-cover object-center mb-6" src='https://www.youtube.com/watch?v=rgFd17fyM4A&t=15569s' target="_blank" ></iframe> */}
-        <h3 className="tracking-widest text-indigo-500 text-xs font-medium title-font">
-          Host {post.user.username}
+        <h3 className="tracking-widest text-indigo-500 text-xl font-medium title-font flex gap-2">
+          <AvatarUser username={post.user.username} />
+          <div className="my-auto">{post.user.username}</div>
         </h3>
         <h2 className="text-lg text-gray-900 font-medium title-font mb-4">
           {post.title}
